@@ -23,6 +23,9 @@ RUN apt-get update && apt-get install -y \
           libmcrypt-dev \
           libpng-dev \
           g++ \
+          git \
+          mc \
+          vim \
       && docker-php-ext-install -j$(nproc) iconv bcmath gd mbstring
 
 # Install Postgre PDO
@@ -41,3 +44,14 @@ RUN { \
       echo "xdebug.remote_host=192.168.1.10"; \
       echo "xdebug.remote_port=9000"; \
   } | tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+# remove unnecessary files
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/lib/apt/lists/*
+
+RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+
+RUN useradd -G www-data -ms /bin/bash deployer
+USER deployer
+RUN mkdir /home/deployer/.ssh
+
+WORKDIR /app

@@ -22,6 +22,7 @@ services:
         volumes:
             - ${PWD}/app:/app
             - ${PWD}/config/vhost.conf:/etc/nginx/sites-available/default:ro
+            - ${HOME}/.ssh:/home/deployer/.ssh:ro
         command: ['-g', 'daemon off;']
 
     postgres:
