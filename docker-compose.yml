@@ -6,7 +6,7 @@ services:
           context: ./docker-files/php7.2
           dockerfile: Dockerfile
         volumes:
-            - ${PWD}/app:/app
+            - ${PWD}:/app
         environment:
             - "ENV=${ENV}"
             - "XDEBUG_REMOTE_HOST=${XDEBUG_REMOTE_HOST}"
