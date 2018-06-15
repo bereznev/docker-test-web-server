@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+    php-fpm:
+        build:
+          context: ./docker-files/php7.2
+          dockerfile: Dockerfile
+        volumes:
+            - ${PWD}/app:/app
+        environment:
+            - "ENV=${ENV}"
+            - "XDEBUG_REMOTE_HOST=${XDEBUG_REMOTE_HOST}"
+            - "XDEBUG_REMOTE_PORT=${XDEBUG_REMOTE_PORT}"
+    web:
+        build:
+          context: ./docker-files/web
+          dockerfile: Dockerfile
+        links:
+            - php-fpm
+        ports:
+            - 2080:80
+        volumes:
+            - ${PWD}/app:/app
+            - ${PWD}/config/vhost.conf:/etc/nginx/sites-available/default:ro
+        command: ['-g', 'daemon off;']
+
+    postgres:
+        image: postgres:9.6.5
+        ports:
+          - "5432:5432"
+        environment:
+          #- PGDATA: "/tmp/pgdata" # /var/lib/postgresql/data
+          #- "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+          - POSTGRES_USER
+          - POSTGRES_DB
+          - POSTGRES_PASSWORD
+        volumes:
+          - ${PWD}/data/mysql:/var/lib/postgresql/data

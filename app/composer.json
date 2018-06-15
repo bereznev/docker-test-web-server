@@ -1,0 +1,14 @@
+{
+  "name": "bereznevy/docker-web-server",
+  "description": "Simple server php-fpm + nginx",
+  "keywords": [
+    "docker",
+    "web"
+  ],
+  "type": "project",
+  "license": "BSD-3-Clause",
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7.1"
+  }
+}
